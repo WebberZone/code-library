@@ -1,4 +1,5 @@
 # WebberZone Code Library
+
 This is a community-maintained repository of code snippets to help modify the default behaviour of the various plugins developed by [WebberZone](https://webberzone.com).
 
 These are not add-on plugins as they would sit in their own repository.
@@ -13,7 +14,7 @@ Snippets have been either designed as WordPress plugins or as standalone functio
 2. Click the "Raw" button (next to "Blame" and "History") at the top right
 3. Save the page from your browser as a .php file in a folder of the same name
 4. Compress the folder .zip file and upload this as a plugin in the *Plugins > Add New > Upload* plugin page.
-4. Activate the plugin from the WordPress plugins page
+5. Activate the plugin from the WordPress plugins page
 
 For files that aren't set up as plugins (i.e. standalone functions), follow steps 1, 2  and 3 above and then copy and paste the code into your theme or child theme's *functions.php* or inside a custom functionality or Must Use plugin.
 

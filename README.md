@@ -10,7 +10,7 @@ Each plugin has a separate folder which contains its own set of sub-folders (cat
 
 Snippets have been either designed as WordPress plugins or as standalone functions. For snippets set up as WordPress plugins please follow the below instructions:
 
-1. Click on the filename of the snippet you'd like to use. The ones set up as WordPress plugins have ` * Plugin Name:` in the file comment
+1. Click on the filename of the snippet you'd like to use. The ones set up as WordPress plugins have `* Plugin Name:` in the file comment
 2. Click the "Raw" button (next to "Blame" and "History") at the top right
 3. Save the page from your browser as a .php file in a folder of the same name
 4. Compress the folder .zip file and upload this as a plugin in the *Plugins > Add New > Upload* plugin page.

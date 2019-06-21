@@ -26,3 +26,4 @@ function tptn_comments_count( $output, $result ) {
 	return $output;
 }
 add_filter( 'tptn_list', 'tptn_comments_count', 10, 2 );
+

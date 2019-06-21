@@ -56,3 +56,4 @@ if ( function_exists( 'get_tptn_pop_posts' ) ) {
 	// Restore original post data.
 	wp_reset_postdata();
 }
+

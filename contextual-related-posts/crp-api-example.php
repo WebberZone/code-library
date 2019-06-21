@@ -53,3 +53,4 @@ if ( function_exists( 'get_crp_posts_id' ) ) {
 	// Restore original post data.
 	wp_reset_postdata();
 }
+

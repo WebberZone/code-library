@@ -28,3 +28,4 @@ function tptn_list_cats( $output, $result, $args ) {
 	return $output;
 }
 add_filter( 'tptn_list', 'tptn_list_cats', 10, 3 );
+

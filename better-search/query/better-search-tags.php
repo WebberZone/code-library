@@ -18,7 +18,7 @@
 /**
  * Extend Better Search to search through tags.
  *
- * @since 2.2.0
+ * @since 1.0.0
  *
  * @param string $where WHERE clause.
  * @param string $search_query Search query.

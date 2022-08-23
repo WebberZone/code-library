@@ -8,23 +8,15 @@
 
 if ( function_exists( 'get_crp_posts_id' ) ) {
 	global $post;
-	$scores    = get_crp_posts_id(
-		array(
-			'postid' => $post->ID,
-			'limit'  => 7,
-		)
-	);
-	$crp_posts = wp_list_pluck( (array) $scores, 'ID' );
-
-	// You can customize these arguments. Refer to the WP_Query article in the codex for additional details.
+	// You can customize these arguments. Refer to the WP_Query documentation for additional details.
 	$args = array(
-		'post__in'            => $crp_posts,
-		'posts_per_page'      => 7,
+		'post'                => $post->ID,
+		'limit'               => 7,
 		'category_name'       => 'news',
 		'ignore_sticky_posts' => 1,
 	);
 
-	$my_query = new WP_Query( $args );
+	$my_query = new CRP_Query( $args );
 
 	if ( $my_query->have_posts() ) {
 		echo '<ul class="category posts crp_related">';

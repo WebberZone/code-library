@@ -9,28 +9,18 @@
 if ( function_exists( 'get_tptn_pop_posts' ) ) {
 	global $post;
 
-	$settings = array(
-		'daily'        => true,
-		'daily_range'  => 30,
-		'limit'        => 20,
-		'strict_limit' => false,
-	);
-	$topposts = get_tptn_pop_posts( $settings );
-
-	$topposts = wp_list_pluck( (array) $topposts, 'postnumber' );
-
-	// You can customize these arguments. Refer to the WP_Query article in the codex for additional details.
+	// You can customize these arguments. Refer to the WP_Query documentation for additional details.
 	$args = array(
-		'post__in'            => $topposts,
-		'orderby'             => 'post__in',
-		'posts_per_page'      => 7,
+		'daily'               => true,
+		'daily_range'         => 30,
+		'limit'               => 7,
 		'ignore_sticky_posts' => 1,
 	);
 
-	$my_query = new WP_Query( $args );
+	$my_query = new Top_Ten_Query( $args );
 
 	if ( $my_query->have_posts() ) {
-		echo '<ul class="category posts crp_related">';
+		echo '<ul class="category posts popular-posts">';
 
 		// Start looping over the query results.
 		while ( $query->have_posts() ) {

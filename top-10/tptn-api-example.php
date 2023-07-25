@@ -6,7 +6,7 @@
  * @package Top_Ten
  */
 
-if ( function_exists( 'get_tptn_pop_posts' ) ) {
+if ( function_exists( 'get_tptn_posts' ) ) {
 	global $post;
 
 	// You can customize these arguments. Refer to the WP_Query documentation for additional details.

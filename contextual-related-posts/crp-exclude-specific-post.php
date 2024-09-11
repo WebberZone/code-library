@@ -26,4 +26,4 @@ function crp_exclude_specific_post( $where, $id ) {
 	}
 	return $where;
 }
-add_filter( 'crp_posts_where', 'crp_exclude_specific_post', 10, 2 );
+add_filter( 'crp_query_posts_where', 'crp_exclude_specific_post', 10, 2 );

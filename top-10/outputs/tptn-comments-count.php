@@ -17,7 +17,7 @@
  * @param string $output Formatted list item with link and and thumbnail.
  * @param object $result Object of the current post result.
  *
- * @return  string  Output variable with comments number added
+ * @return string  Output variable with comments number added
  */
 function tptn_comments_count( $output, $result ) {
 
@@ -26,4 +26,3 @@ function tptn_comments_count( $output, $result ) {
 	return $output;
 }
 add_filter( 'tptn_list', 'tptn_comments_count', 10, 2 );
-

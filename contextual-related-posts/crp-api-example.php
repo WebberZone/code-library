@@ -22,44 +22,44 @@ if ( class_exists( 'CRP_Query' ) ) {
 		?>
 
 		<section class="crp-showcase" aria-labelledby="crp-showcase-title">
-			<?php crp_render_showcase_styles(); ?>
+		<?php crp_render_showcase_styles(); ?>
 
 			<header class="crp-showcase__header">
 				<div>
 					<span class="crp-showcase__eyebrow"><?php esc_html_e( 'Keep Reading', 'contextual-related-posts' ); ?></span>
 					<h2 class="crp-showcase__title" id="crp-showcase-title"><?php esc_html_e( 'Related Stories You Might Like', 'contextual-related-posts' ); ?></h2>
 					<p class="crp-showcase__intro">
-						<?php esc_html_e( 'These picks are selected automatically based on the current article so visitors can discover more relevant content.', 'contextual-related-posts' ); ?>
+		<?php esc_html_e( 'These picks are selected automatically based on the current article so visitors can discover more relevant content.', 'contextual-related-posts' ); ?>
 					</p>
 				</div>
 				<span class="crp-showcase__badge"><?php esc_html_e( 'Filtered to the news category', 'contextual-related-posts' ); ?></span>
 			</header>
 
 			<ul class="crp-showcase__grid">
-				<?php
-				// Start looping over the query results.
-				while ( $my_query->have_posts() ) {
-					$my_query->the_post();
-					$post_id       = get_the_ID();
-					$excerpt       = get_the_excerpt();
-					$trimmed_text  = $excerpt ? wp_trim_words( $excerpt, 18, '...' ) : wp_trim_words( wp_strip_all_tags( get_the_content() ), 18, '...' );
-					$category      = get_the_category();
-					$category_name = ! empty( $category ) ? $category[0]->name : __( 'Related Post', 'contextual-related-posts' );
-					?>
+		<?php
+		// Start looping over the query results.
+		while ( $my_query->have_posts() ) {
+			$my_query->the_post();
+			$post_id       = get_the_ID();
+			$excerpt       = get_the_excerpt();
+			$trimmed_text  = $excerpt ? wp_trim_words( $excerpt, 18, '...' ) : wp_trim_words( wp_strip_all_tags( get_the_content() ), 18, '...' );
+			$category      = get_the_category();
+			$category_name = ! empty( $category ) ? $category[0]->name : __( 'Related Post', 'contextual-related-posts' );
+			?>
 
 					<li <?php post_class( 'crp-showcase__card' ); ?>>
 						<a class="crp-showcase__media" href="<?php the_permalink(); ?>" aria-hidden="true" tabindex="-1">
-							<?php
-							if ( has_post_thumbnail() ) {
-								echo get_the_post_thumbnail( $post_id, 'large', array( 'loading' => 'lazy' ) );
-							} else {
-								?>
+			<?php
+			if ( has_post_thumbnail() ) {
+					echo get_the_post_thumbnail( $post_id, 'large', array( 'loading' => 'lazy' ) );
+			} else {
+				?>
 								<span style="display:flex;height:100%;align-items:center;justify-content:center;padding:1.25rem;color:#0f766e;font-size:1rem;font-weight:700;text-align:center;">
-									<?php echo esc_html( mb_strimwidth( get_the_title(), 0, 52, '...' ) ); ?>
+				<?php echo esc_html( mb_strimwidth( get_the_title(), 0, 52, '...' ) ); ?>
 								</span>
-								<?php
-							}
-							?>
+					<?php
+			}
+			?>
 						</a>
 
 						<div class="crp-showcase__content">
@@ -70,7 +70,7 @@ if ( class_exists( 'CRP_Query' ) ) {
 
 							<h3 class="crp-showcase__card-title">
 								<a href="<?php the_permalink(); ?>" title="<?php the_title_attribute( array( 'echo' => false ) ); ?>">
-									<?php the_title(); ?>
+			<?php the_title(); ?>
 								</a>
 							</h3>
 
@@ -79,15 +79,15 @@ if ( class_exists( 'CRP_Query' ) ) {
 							<div class="crp-showcase__footer">
 								<time datetime="<?php echo esc_attr( get_the_date( DATE_W3C ) ); ?>"><?php echo esc_html( get_the_date() ); ?></time>
 								<a class="crp-showcase__readmore" href="<?php the_permalink(); ?>">
-									<?php esc_html_e( 'Read next', 'contextual-related-posts' ); ?>
+			<?php esc_html_e( 'Read next', 'contextual-related-posts' ); ?>
 								</a>
 							</div>
 						</div>
 					</li>
 
-					<?php
-				}
-				?>
+			<?php
+		}
+		?>
 			</ul>
 		</section>
 		<?php

@@ -14,7 +14,7 @@
 /**
  * Remove brackets from the count.
  *
- * @param string $tptn_list_count Formatted list count.
+ * @param  string $tptn_list_count Formatted list count.
  * @return string Updated list count without brackets.
  */
 function tptn_remove_brackets( $tptn_list_count ) {

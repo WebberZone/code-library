@@ -14,11 +14,11 @@
 /**
  * Add categories to the list items.
  *
- * @param   string  $crp_author Contextual Related Posts Author HTML.
- * @param   object  $author_info Object of the current post result.
- * @param   WP_Post $result Post object.
+ * @param string  $crp_author  Contextual Related Posts Author HTML.
+ * @param object  $author_info Object of the current post result.
+ * @param WP_Post $result      Post object.
  *
- * @return  string  Updated HTML with the co-authors added
+ * @return string  Updated HTML with the co-authors added
  */
 function crp_coauthor( $crp_author, $author_info, $result ) {
 

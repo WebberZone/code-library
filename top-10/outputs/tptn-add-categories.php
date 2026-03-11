@@ -14,11 +14,11 @@
 /**
  * Add categories to the list items.
  *
- * @param   string $output Formatted list item with link and and thumbnail.
- * @param   object $result Object of the current post result.
- * @param   array  $args   Array of arguments.
+ * @param string $output Formatted list item with link and and thumbnail.
+ * @param object $result Object of the current post result.
+ * @param array  $args   Array of arguments.
  *
- * @return  string  Output variable with categories added
+ * @return string  Output variable with categories added
  */
 function tptn_list_cats( $output, $result, $args ) {
 	$categories = get_the_category_list( ', ', '', $result->ID );
@@ -28,4 +28,3 @@ function tptn_list_cats( $output, $result, $args ) {
 	return $output;
 }
 add_filter( 'tptn_list', 'tptn_list_cats', 10, 3 );
-

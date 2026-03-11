@@ -16,7 +16,7 @@
  *
  * @since 1.0
  *
- * @param int $input Raw post count.
+ * @param  int $input Raw post count.
  * @return string Formatted count string.
  */
 function tptn_restyle_count( $input ) {

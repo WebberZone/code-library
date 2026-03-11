@@ -20,8 +20,8 @@
  *
  * @since 1.0.0
  *
- * @param string $where WHERE clause.
- * @param string $search_query Search query.
+ * @param  string $where        WHERE clause.
+ * @param  string $search_query Search query.
  * @return string Updated WHERE clause
  */
 function bsearch_tag_search_where( $where, $search_query ) {

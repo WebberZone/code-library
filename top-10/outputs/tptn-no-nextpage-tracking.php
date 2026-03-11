@@ -18,8 +18,8 @@
  * Use tptn_view_post_count instead, which filters the full counter output
  * (including the tracker script) returned by Counter::echo_post_count().
  *
- * @param   string $output Top 10 counter output (tracker script or static count HTML).
- * @return  string  Filtered counter output.
+ * @param  string $output Top 10 counter output (tracker script or static count HTML).
+ * @return string  Filtered counter output.
  */
 function filter_tptn_viewed_count( $output ) {
 	global $wp_query;

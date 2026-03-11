@@ -14,7 +14,7 @@
 function override_bsearch_heatmap_title( $title, $searchvar ) {
 
 	$title = sprintf(
-		/* translators: 1: Search term */
+	/* translators: 1: Search term */
 		__( 'Search for %1$s', 'better-search' ),
 		$searchvar,
 	);

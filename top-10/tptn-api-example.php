@@ -22,46 +22,46 @@ if ( class_exists( 'Top_Ten_Query' ) ) {
 		?>
 
 		<section class="tptn-showcase" aria-labelledby="tptn-showcase-title">
-			<?php tptn_render_showcase_styles(); ?>
+		<?php tptn_render_showcase_styles(); ?>
 
 			<header class="tptn-showcase__header">
 				<div>
 					<span class="tptn-showcase__eyebrow"><?php esc_html_e( 'Reader Favorites', 'top-10' ); ?></span>
 					<h2 class="tptn-showcase__title" id="tptn-showcase-title"><?php esc_html_e( 'Trending This Month', 'top-10' ); ?></h2>
 					<p class="tptn-showcase__intro">
-						<?php esc_html_e( 'A curated list of the stories visitors keep coming back to, updated automatically from your Top Ten stats.', 'top-10' ); ?>
+		<?php esc_html_e( 'A curated list of the stories visitors keep coming back to, updated automatically from your Top Ten stats.', 'top-10' ); ?>
 					</p>
 				</div>
 				<span class="tptn-showcase__badge"><?php esc_html_e( 'Updated from the last 30 days', 'top-10' ); ?></span>
 			</header>
 
 			<ul class="tptn-showcase__grid">
-				<?php
-				// Start looping over the query results.
-				$rank = 1;
-				while ( $my_query->have_posts() ) {
-					$my_query->the_post();
-					$post_id       = get_the_ID();
-					$excerpt       = get_the_excerpt();
-					$trimmed_text  = $excerpt ? wp_trim_words( $excerpt, 18, '...' ) : wp_trim_words( wp_strip_all_tags( get_the_content() ), 18, '...' );
-					$category      = get_the_category();
-					$category_name = ! empty( $category ) ? $category[0]->name : __( 'Popular Pick', 'top-10' );
+		<?php
+		// Start looping over the query results.
+		$rank = 1;
+		while ( $my_query->have_posts() ) {
+			$my_query->the_post();
+			$post_id       = get_the_ID();
+			$excerpt       = get_the_excerpt();
+			$trimmed_text  = $excerpt ? wp_trim_words( $excerpt, 18, '...' ) : wp_trim_words( wp_strip_all_tags( get_the_content() ), 18, '...' );
+			$category      = get_the_category();
+			$category_name = ! empty( $category ) ? $category[0]->name : __( 'Popular Pick', 'top-10' );
 
-					?>
+			?>
 
 				<li <?php post_class( 'tptn-showcase__card' ); ?>>
 					<a class="tptn-showcase__media" href="<?php the_permalink(); ?>" aria-hidden="true" tabindex="-1">
-						<?php
-						if ( has_post_thumbnail() ) {
-							echo get_the_post_thumbnail( $post_id, 'large', array( 'loading' => 'lazy' ) );
-						} else {
-							?>
+			<?php
+			if ( has_post_thumbnail() ) {
+				echo get_the_post_thumbnail( $post_id, 'large', array( 'loading' => 'lazy' ) );
+			} else {
+				?>
 							<span style="display:flex;height:100%;align-items:center;justify-content:center;padding:1.25rem;color:#7c2d12;font-size:1rem;font-weight:700;text-align:center;">
-								<?php echo esc_html( mb_strimwidth( get_the_title(), 0, 52, '...' ) ); ?>
+				<?php echo esc_html( mb_strimwidth( get_the_title(), 0, 52, '...' ) ); ?>
 							</span>
-							<?php
-						}
-						?>
+					<?php
+			}
+			?>
 					</a>
 
 					<div class="tptn-showcase__content">
@@ -72,7 +72,7 @@ if ( class_exists( 'Top_Ten_Query' ) ) {
 
 						<h3 class="tptn-showcase__card-title">
 							<a href="<?php the_permalink(); ?>" title="<?php the_title_attribute( array( 'echo' => false ) ); ?>">
-								<?php the_title(); ?>
+			<?php the_title(); ?>
 							</a>
 						</h3>
 
@@ -81,18 +81,18 @@ if ( class_exists( 'Top_Ten_Query' ) ) {
 						<div class="tptn-showcase__footer">
 							<time datetime="<?php echo esc_attr( get_the_date( DATE_W3C ) ); ?>"><?php echo esc_html( get_the_date() ); ?></time>
 							<a class="tptn-showcase__readmore" href="<?php the_permalink(); ?>">
-								<?php esc_html_e( 'Read story', 'top-10' ); ?>
+			<?php esc_html_e( 'Read story', 'top-10' ); ?>
 							</a>
 						</div>
 					</div>
 				</li>
 
-					<?php
-					++$rank;
+			<?php
+			++$rank;
 
-				}
+		}
 
-				?>
+		?>
 			</ul>
 		</section>
 		<?php

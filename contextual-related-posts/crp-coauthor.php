@@ -38,6 +38,5 @@ function crp_coauthor( $crp_author, $author_info, $result ) {
 	$crp_author .= '</span>';
 
 	return $crp_author;
-
 }
-add_filter( 'crp_author', 'crp_coauthor', 10, 3 );
+add_filter( 'crp_author', 'crp_coauthor', 10, 4 );

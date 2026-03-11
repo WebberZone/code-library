@@ -14,10 +14,10 @@
 function override_bsearch_heatmap_title( $title, $searchvar ) {
 
 	$title = sprintf(
-		/* translators: 1: Search term, 2: Number of searches */
+		/* translators: 1: Search term */
 		__( 'Search for %1$s', 'better-search' ),
 		$searchvar,
 	);
 	return $title;
 }
-add_filter( 'bsearch_heatmap_title', 'override_bsearch_heatmap_title', 10, 3 );
+add_filter( 'bsearch_heatmap_title', 'override_bsearch_heatmap_title', 10, 4 );

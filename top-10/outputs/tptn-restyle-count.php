@@ -5,42 +5,37 @@
  * Description: Reformats the Top 10 counter to show k, m, bn and tn instead.
  * Author: Ajay D'Souza
  * Author URI: https://webberzone.com
- * Version: 1.0
+ * Version: 1.1
  *
  * @package Top_Ten
  * @license GPL-2.0+
  */
 
 /**
- * Modify the display the Top 10 counter to show k, m, bn and tn instead.
+ * Modify the display of the Top 10 counter to show k, m, bn and tn instead.
  *
  * @since 1.0
  *
- * @param string $input  Formatted list count.
+ * @param int $input Raw post count.
+ * @return string Formatted count string.
  */
 function tptn_restyle_count( $input ) {
 
-	$input = filter_var( $input, FILTER_SANITIZE_NUMBER_INT );
-	$input = number_format( $input, 0, '.', ',' );
+	$input = absint( $input );
 
-	$input_count = substr_count( $input, ',' );
+	$thresholds = array(
+		1000000000000 => 'tn',
+		1000000000    => 'bn',
+		1000000       => 'm',
+		1000          => 'k',
+	);
 
-	switch ( $input_count ) {
-		case 1:
-			$input = substr( $input, 0, -4 ) . 'k';
-			break;
-		case 2:
-			$input = substr( $input, 0, -4 ) . 'm';
-			break;
-		case 3:
-			$input = substr( $input, 0, -4 ) . 'bn';
-			break;
-		case 4:
-			$input = substr( $input, 0, -4 ) . 'tn';
-			break;
-		default:
-			$input = $input;
+	foreach ( $thresholds as $value => $suffix ) {
+		if ( $input >= $value ) {
+			return round( $input / $value, 1 ) . $suffix;
+		}
 	}
-	return $input;
+
+	return (string) $input;
 }
 add_filter( 'tptn_post_count_only', 'tptn_restyle_count' );

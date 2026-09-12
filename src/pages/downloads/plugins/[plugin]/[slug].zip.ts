@@ -11,6 +11,6 @@ export async function getStaticPaths() {
 export async function GET({ params }: APIContext) {
   const snippet = (await getCatalog()).find((item) => item.data.primaryPlugin === params.plugin && item.data.slug === params.slug);
   if (!snippet || !canZip(snippet.data)) return new Response('Not found', { status: 404 });
-  const zip = createPluginZip(snippet.data.primaryPlugin, snippet.data.slug, snippet.filename, snippet.bytes, await readFile('LICENSE'));
-  return new Response(zip.slice().buffer, { headers: { 'content-type': 'application/zip', 'content-disposition': `attachment; filename="wzcl-${snippet.data.primaryPlugin}-${snippet.data.slug}.zip"`, 'x-content-type-options': 'nosniff' } });
+  const zip = createPluginZip(snippet.data.slug, snippet.filename, snippet.bytes, await readFile('LICENSE'));
+  return new Response(zip.slice().buffer, { headers: { 'content-type': 'application/zip', 'content-disposition': `attachment; filename="${snippet.data.slug}.zip"`, 'x-content-type-options': 'nosniff' } });
 }

@@ -3,7 +3,8 @@ import assert from 'node:assert/strict';
 import { withBase, snippetPath, canonicalUrl } from '../../src/lib/urls.ts';
 import { parseGitDates, newestDate } from '../../src/lib/dates.ts';
 import { validateSourcePath, validateCoverage } from '../../src/lib/sources.ts';
-import { canDownload, canZip } from '../../src/lib/downloads.ts';
+import { unzipSync } from 'fflate';
+import { canDownload, canZip, createPluginZip } from '../../src/lib/downloads.ts';
 import { snippetSchema } from '../../src/lib/schema.ts';
 
 test('URLs preserve the project base without doubling it', () => {
@@ -56,4 +57,11 @@ test('snippet metadata rejects inconsistent plugin and review fields', () => {
   assert.equal(snippetSchema.safeParse({ ...valid, review: { status: 'needs-review' } }).success, false);
   assert.equal(snippetSchema.safeParse({ ...valid, review: { status: 'available', reasons: ['Unsafe output needs escaping.'] } }).success, false);
   assert.equal(snippetSchema.safeParse({ ...valid, source: 'better-search/example.php' }).success, false);
+});
+
+test('plugin ZIPs use the snippet slug as the root folder', () => {
+  const encoder = new TextEncoder();
+  const files = unzipSync(createPluginZip('example-snippet', 'example.php', encoder.encode('<?php'), encoder.encode('GPL')));
+  assert.ok(files['example-snippet/example.php']);
+  assert.ok(files['example-snippet/LICENSE']);
 });

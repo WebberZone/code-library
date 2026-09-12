@@ -70,10 +70,10 @@ for (const snippet of snippets) {
   if (snippet.kind === 'plugin') {
     const zipPath = path.join(dist, `downloads/plugins/${snippet.plugin}/${snippet.slug}.zip`);
     assert(existsSync(zipPath), `Missing ZIP for ${snippet.slug}`);
-    const expected = createPluginZip(snippet.plugin, snippet.slug, source.filename, source.bytes, license);
+    const expected = createPluginZip(snippet.slug, source.filename, source.bytes, license);
     assert(readFileSync(zipPath).equals(Buffer.from(expected)), `ZIP is not deterministic for ${snippet.slug}`);
     const files = unzipSync(expected);
-    assert(files[`wzcl-${snippet.plugin}-${snippet.slug}/${source.filename}`] && files[`wzcl-${snippet.plugin}-${snippet.slug}/LICENSE`], `Invalid ZIP payload for ${snippet.slug}`);
+    assert(files[`${snippet.slug}/${source.filename}`] && files[`${snippet.slug}/LICENSE`], `Invalid ZIP payload for ${snippet.slug}`);
     zipDownloads++;
   }
 }

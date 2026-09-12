@@ -8,6 +8,7 @@ import { getCatalog } from '../../../lib/catalog.ts';
 import { displayDate } from '../../../lib/dates.ts';
 import { KINDS, pluginName } from '../../../lib/site.ts';
 import { githubUrl, withBase } from '../../../lib/urls.ts';
+import { wzNavyTheme } from '../../../lib/wz-navy-theme.ts';
 export async function getStaticPaths() {
   const catalog = await getCatalog();
   return catalog.map((snippet) => ({ params: { plugin: snippet.data.primaryPlugin, slug: snippet.data.slug }, props: { snippet } }));
@@ -25,11 +26,11 @@ const gated = snippet.data.review.status === 'needs-review';
     <div class="doc">
       <article class="article">
         <section class="markdown-body"><Content /></section>
-        <h2>Requirements</h2><ul class="requirement-list">{snippet.data.plugins.map((plugin)=><li><a href={withBase(`/plugins/${plugin}/`)}>{pluginName(plugin)}</a></li>)}{snippet.data.requiresPro && <li>The corresponding Pro plugin must be installed and active.</li>}{snippet.data.requirements.map((requirement)=><li>{requirement}</li>)}</ul>
-        <h2>Source</h2>
-        <div class="source-shell" data-code><div class="source-head"><code>{snippet.data.source}</code><div class="source-actions">{!gated && <button type="button" data-copy>Copy PHP</button>}{snippet.sourceUrl && <a href={snippet.sourceUrl} download={snippet.filename}>Download PHP</a>}{snippet.zipUrl && <a href={snippet.zipUrl} download>Download plugin ZIP</a>}<a href={githubUrl(snippet.data.source)}>View on GitHub</a></div></div><Code code={snippet.code} lang="php" theme="github-dark" /></div>
-        <h2>Details</h2><dl class="detail-list"><dt>Type</dt><dd>{KINDS[snippet.data.kind]}</dd>{gated && <><dt>Review</dt><dd>Needs review</dd></>}{snippet.updated && <><dt>Last updated</dt><dd><time datetime={snippet.updated}>{displayDate(snippet.updated)}</time></dd></>}<dt>GitHub</dt><dd><a href={githubUrl(snippet.data.source)}>Source</a> · <a href={githubUrl(snippet.contentPath, 'edit')}>Edit companion</a> · <a href={githubUrl(snippet.data.source, 'commits')}>History</a></dd></dl>
-        {snippet.data.references.length > 0 && <><h2>Developer references</h2><ul class="refs">{snippet.data.references.map((reference)=><li><a href={reference.url}>{reference.label}</a></li>)}</ul></>}
+        <h2 id="requirements">Requirements</h2><ul class="requirement-list">{snippet.data.plugins.map((plugin)=><li><a href={withBase(`/plugins/${plugin}/`)}>{pluginName(plugin)}</a></li>)}{snippet.data.requiresPro && <li>The corresponding Pro plugin must be installed and active.</li>}{snippet.data.requirements.map((requirement)=><li>{requirement}</li>)}</ul>
+        <h2 id="source">Source</h2>
+        <div class="source-shell" data-code><div class="source-head"><code>{snippet.data.source}</code><div class="source-actions">{!gated && <button type="button" data-copy>Copy PHP</button>}{snippet.sourceUrl && <a href={snippet.sourceUrl} download={snippet.filename}>Download PHP</a>}{snippet.zipUrl && <a href={snippet.zipUrl} download>Download plugin ZIP</a>}<a href={githubUrl(snippet.data.source)}>View on GitHub</a></div><span class="visually-hidden" aria-live="polite" data-copy-status></span></div><Code code={snippet.code} lang="php" theme={wzNavyTheme} /></div>
+        <h2 id="details">Details</h2><dl class="detail-list"><dt>Type</dt><dd>{KINDS[snippet.data.kind]}</dd>{gated && <><dt>Review</dt><dd>Needs review</dd></>}{snippet.updated && <><dt>Last updated</dt><dd><time datetime={snippet.updated}>{displayDate(snippet.updated)}</time></dd></>}<dt>GitHub</dt><dd><a href={githubUrl(snippet.data.source)}>Source</a> · <a href={githubUrl(snippet.contentPath, 'edit')}>Edit companion</a> · <a href={githubUrl(snippet.data.source, 'commits')}>History</a></dd></dl>
+        {snippet.data.references.length > 0 && <><h2 id="developer-references">Developer references</h2><ul class="refs">{snippet.data.references.map((reference)=><li><a href={reference.url}>{reference.label}</a></li>)}</ul></>}
       </article>
       <Toc />
     </div>
@@ -37,11 +38,22 @@ const gated = snippet.data.review.status === 'needs-review';
 </Base>
 <script>
   document.querySelectorAll('[data-copy]').forEach((button) => {
+    const status = button.closest('[data-code]')?.querySelector('[data-copy-status]');
+    let timer: ReturnType<typeof setTimeout> | undefined;
     button.addEventListener('click', async () => {
       const source = button.closest('[data-code]')?.querySelector('pre code')?.textContent ?? '';
-      await navigator.clipboard.writeText(source);
-      button.textContent = 'Copied';
-      setTimeout(() => { button.textContent = 'Copy PHP'; }, 1600);
+      let label = 'Copied';
+      let announcement = 'PHP copied to clipboard';
+      try {
+        await navigator.clipboard.writeText(source);
+      } catch {
+        label = 'Copy failed';
+        announcement = 'Copy failed. Select the code manually.';
+      }
+      button.textContent = label;
+      if (status) status.textContent = announcement;
+      clearTimeout(timer);
+      timer = setTimeout(() => { button.textContent = 'Copy PHP'; if (status) status.textContent = ''; }, 1600);
     });
   });
 </script>

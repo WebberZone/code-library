@@ -68,7 +68,21 @@ const serialized = JSON.stringify(records).replace(/</g, '\\u003c');
     };
     const render = () => {
       const items = filtered();
-      results.replaceChildren(...items.map(card));
+      if (items.length === 0) {
+        const empty = document.createElement('div');
+        empty.className = 'empty-state';
+        const message = document.createElement('p');
+        message.textContent = 'No snippets match these filters.';
+        const reset = document.createElement('button');
+        reset.type = 'button';
+        reset.className = 'btn secondary';
+        reset.textContent = 'Clear filters';
+        reset.addEventListener('click', () => { form.reset(); render(); });
+        empty.append(message, reset);
+        results.replaceChildren(empty);
+      } else {
+        results.replaceChildren(...items.map(card));
+      }
       count.textContent = `${items.length} of ${records.length} snippets`;
       pagination.replaceChildren();
     };

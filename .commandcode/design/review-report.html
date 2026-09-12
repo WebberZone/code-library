@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>WebberZone Code Library - Review Report</title>
+	<script src="https://cdn.tailwindcss.com"></script>
+	<style>
+		body { font-family: Inter, ui-sans-serif, system-ui, sans-serif; }
+		.mono { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+		.report-section { border: 1px solid #222226; background: #0a0a0b; position: relative; }
+		.corner-box { position: absolute; width: 20px; height: 20px; border: 1px solid #222226; background: #000; }
+	</style>
+</head>
+<body class="bg-black text-[#fafafa]">
+	<main class="mx-auto w-full max-w-6xl px-5 py-8 md:px-10 md:py-12">
+		<header class="report-section mb-8 p-6 md:p-8">
+			<div class="corner-box left-0 top-0 -translate-x-1/2 -translate-y-1/2"></div>
+			<div class="corner-box right-0 top-0 translate-x-1/2 -translate-y-1/2"></div>
+			<div class="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
+				<div>
+					<div class="mono mb-2 text-xs tracking-widest text-[#666]">// DESIGN REVIEW</div>
+					<h1 class="text-4xl font-bold tracking-tight md:text-6xl">WebberZone Code Library</h1>
+				</div>
+				<div class="mono text-left text-xs text-[#666] md:text-right">
+					<div>COMMANDCODE REPORT</div>
+					<div class="text-[#444]">2026-09-12</div>
+				</div>
+			</div>
+		</header>
+
+		<section class="report-section mb-8 p-6 md:p-8">
+			<div class="corner-box left-0 top-0 -translate-x-1/2 -translate-y-1/2"></div>
+			<div class="corner-box right-0 top-0 translate-x-1/2 -translate-y-1/2"></div>
+			<div class="grid gap-8 md:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)]">
+				<div>
+					<div class="mono mb-2 text-xs tracking-widest text-[#666]">// OVERALL</div>
+					<div class="text-6xl font-bold tracking-tight md:text-7xl">38</div>
+					<div class="mt-1 text-lg text-[#666]">/ 50</div>
+					<div class="mt-4 inline-flex border border-[#fbbf24]/30 bg-[#fbbf24]/10 px-3 py-1 text-sm text-[#fbbf24]">NEEDS CHANGES</div>
+				</div>
+				<div>
+					<div class="mono mb-3 text-xs tracking-widest text-[#666]">// TL;DR</div>
+					<p class="text-sm leading-6 text-[#a0a0a0]">Brand palette, type, and contrast are applied carefully — no accessibility escalation triggers, no HIGH findings. Four MEDIUM findings stand between the site and its brand spec: the primary CTA and the code-block theme deviate from WebberZone colours, the snippet TOC omits the page's main sections, and the filter browser has no empty state.</p>
+					<p class="mt-4 text-sm leading-6 text-[#fbbf24]">Next: /design recolor (brand CTA + custom Shiki theme), then /design interaction (empty state, copy announcement, touch targets).</p>
+				</div>
+			</div>
+		</section>
+
+		<section class="report-section mb-8 p-6 md:p-8">
+			<div class="mono mb-6 text-xs tracking-widest text-[#666]">// HEURISTIC SCORES</div>
+			<div class="overflow-x-auto">
+				<table class="w-full min-w-[720px] border-collapse text-sm">
+					<thead>
+						<tr class="border-b border-[#222226] text-left mono text-xs text-[#666]">
+							<th class="py-3 pr-4 font-normal">#</th>
+							<th class="py-3 pr-4 font-normal">HEURISTIC</th>
+							<th class="py-3 pr-4 font-normal">SCORE</th>
+							<th class="py-3 font-normal">KEY FINDING</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr class="border-b border-[#1a1a1e]">
+							<td class="py-4 pr-4 text-[#555]">1</td>
+							<td class="py-4 pr-4 text-[#fafafa]">First impression</td>
+							<td class="py-4 pr-4 text-[#fbbf24]">8 / 10</td>
+							<td class="py-4 text-[#a0a0a0]">Specific hero: "Practical plugin customizations, ready to inspect" names product and proof. Reads as WebberZone at first glance.</td>
+						</tr>
+						<tr class="border-b border-[#1a1a1e]">
+							<td class="py-4 pr-4 text-[#555]">2</td>
+							<td class="py-4 pr-4 text-[#fafafa]">Hierarchy</td>
+							<td class="py-4 pr-4 text-[#fbbf24]">8 / 10</td>
+							<td class="py-4 text-[#a0a0a0]">Eyebrow → H1 → lead → search → CTAs holds; card hierarchy consistent. TOC omission costs the detail page.</td>
+						</tr>
+						<tr class="border-b border-[#1a1a1e]">
+							<td class="py-4 pr-4 text-[#555]">3</td>
+							<td class="py-4 pr-4 text-[#fafafa]">Color voice</td>
+							<td class="py-4 pr-4 text-[#fbbf24]">7 / 10</td>
+							<td class="py-4 text-[#a0a0a0]">Tokens are exact and contrast verified, but primary CTA uses teal-text/navy instead of brand teal, and the code block is GitHub-themed.</td>
+						</tr>
+						<tr class="border-b border-[#1a1a1e]">
+							<td class="py-4 pr-4 text-[#555]">4</td>
+							<td class="py-4 pr-4 text-[#fafafa]">Type voice</td>
+							<td class="py-4 pr-4 text-[#fbbf24]">8 / 10</td>
+							<td class="py-4 text-[#a0a0a0]">League Spartan / Plus Jakarta Sans / Fira Code, self-hosted, exactly per brand. Scale and measure are well tuned.</td>
+						</tr>
+						<tr class="border-b border-[#1a1a1e]">
+							<td class="py-4 pr-4 text-[#555]">5</td>
+							<td class="py-4 pr-4 text-[#fafafa]">Interaction feel</td>
+							<td class="py-4 pr-4 text-[#fbbf24]">7 / 10</td>
+							<td class="py-4 text-[#a0a0a0]">Combobox is keyboard-complete and verified. Empty filter state missing; copy success is silent; code actions are 36px.</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</section>
+
+		<section class="report-section mb-8 p-6 md:p-8">
+			<div class="mono mb-6 text-xs tracking-widest text-[#666]">// COGNITIVE LOAD / RISK</div>
+			<div class="grid gap-6 md:grid-cols-2">
+				<div>
+					<div class="mb-3 text-xl font-semibold">Low</div>
+					<ul class="space-y-3 text-sm text-[#a0a0a0]">
+						<li><span class="mono mr-2 text-[#34d399]">PASS</span>All 13 token pairs pass WCAG AA; teal never used as text</li>
+						<li><span class="mono mr-2 text-[#34d399]">PASS</span>Keyboard path verified: skip link, combobox arrows, Enter</li>
+						<li><span class="mono mr-2 text-[#34d399]">PASS</span>320px reflow clean, no horizontal scroll, badges wrap</li>
+						<li><span class="mono mr-2 text-[#fbbf24]">WATCH</span>Primary CTA and code theme drift from brand colours</li>
+						<li><span class="mono mr-2 text-[#fbbf24]">WATCH</span>TOC omits Requirements / Source / Details on snippet pages</li>
+						<li><span class="mono mr-2 text-[#fbbf24]">WATCH</span>Empty filter result is a blank grid with no recovery path</li>
+					</ul>
+				</div>
+				<div>
+					<div class="mono mb-3 text-xs tracking-widest text-[#666]">// NEXT MODES</div>
+					<div class="flex flex-wrap gap-2">
+						<span class="border border-[#333] px-3 py-1 text-sm text-[#a0a0a0]">/recolor</span>
+						<span class="border border-[#333] px-3 py-1 text-sm text-[#a0a0a0]">/relayout</span>
+						<span class="border border-[#333] px-3 py-1 text-sm text-[#a0a0a0]">/interaction</span>
+						<span class="border border-[#333] px-3 py-1 text-sm text-[#a0a0a0]">/finish</span>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<section class="report-section mb-8 p-6 md:p-8">
+			<div class="mono mb-6 text-xs tracking-widest text-[#666]">// WHAT'S WORKING</div>
+			<div class="grid gap-4 md:grid-cols-3">
+				<article class="border border-[#1f1f24] p-4">
+					<h2 class="mb-2 text-sm font-semibold">Brand system applied exactly</h2>
+					<p class="text-sm leading-6 text-[#a0a0a0]">Teal W / navy Z mark, off-white canvas, navy headings, rust eyebrows, self-hosted League Spartan / Plus Jakarta Sans / Fira Code. Contrast rules respected throughout — links use teal-text, never raw teal.</p>
+				</article>
+				<article class="border border-[#1f1f24] p-4">
+					<h2 class="mb-2 text-sm font-semibold">Hero has a real point of view</h2>
+					<p class="text-sm leading-6 text-[#a0a0a0]">"Practical plugin customizations, ready to inspect" is specific, no hype, on-brand voice. Left-aligned, artifact-first, not a generic centered gradient.</p>
+				</article>
+				<article class="border border-[#1f1f24] p-4">
+					<h2 class="mb-2 text-sm font-semibold">Search combobox is genuinely good</h2>
+					<p class="text-sm leading-6 text-[#a0a0a0]">Proper combobox semantics, aria-activedescendant, full arrow/Enter/Escape keyboard path — verified end to end. Filter browser updates live with zero server round trips.</p>
+				</article>
+			</div>
+		</section>
+
+		<section class="report-section mb-8 p-6 md:p-8">
+			<div class="mono mb-6 text-xs tracking-widest text-[#666]">// FINDINGS</div>
+			<div class="overflow-x-auto">
+				<table class="w-full min-w-[860px] border-collapse text-sm">
+					<thead>
+						<tr class="border-b border-[#222226] text-left mono text-xs text-[#666]">
+							<th class="py-3 pr-4 font-normal">#</th>
+							<th class="py-3 pr-4 font-normal">SEVERITY</th>
+							<th class="py-3 pr-4 font-normal">DISCIPLINE</th>
+							<th class="py-3 pr-4 font-normal">LOCATION</th>
+							<th class="py-3 font-normal">FIX</th>
+						</tr>
+					</thead>
+					<tbody class="text-[#a0a0a0]">
+						<tr class="border-b border-[#1a1a1e]">
+							<td class="py-3 pr-4 text-[#555]">1</td>
+							<td class="py-3 pr-4 text-[#fbbf24]">MEDIUM</td>
+							<td class="py-3 pr-4">Color</td>
+							<td class="py-3 pr-4 mono text-xs">global.css .btn</td>
+							<td class="py-3">Primary CTA: bg #4a7c8a teal, hover #3d6875 teal-dark, per brand rules</td>
+						</tr>
+						<tr class="border-b border-[#1a1a1e]">
+							<td class="py-3 pr-4 text-[#555]">2</td>
+							<td class="py-3 pr-4 text-[#fbbf24]">MEDIUM</td>
+							<td class="py-3 pr-4">Color</td>
+							<td class="py-3 pr-4 mono text-xs">[slug].astro theme="github-dark"</td>
+							<td class="py-3">Custom Shiki theme keyed to navy/teal/stone; no GitHub palette</td>
+						</tr>
+						<tr class="border-b border-[#1a1a1e]">
+							<td class="py-3 pr-4 text-[#555]">3</td>
+							<td class="py-3 pr-4 text-[#fbbf24]">MEDIUM</td>
+							<td class="py-3 pr-4">Layout</td>
+							<td class="py-3 pr-4 mono text-xs">Toc.astro + [slug].astro</td>
+							<td class="py-3">Include Requirements / Source / Details in the on-page TOC</td>
+						</tr>
+						<tr class="border-b border-[#1a1a1e]">
+							<td class="py-3 pr-4 text-[#555]">4</td>
+							<td class="py-3 pr-4 text-[#fbbf24]">MEDIUM</td>
+							<td class="py-3 pr-4">Interaction</td>
+							<td class="py-3 pr-4 mono text-xs">SnippetBrowser.astro render()</td>
+							<td class="py-3">"No snippets match" empty state with clear-filters action</td>
+						</tr>
+						<tr class="border-b border-[#1a1a1e]">
+							<td class="py-3 pr-4 text-[#555]">5</td>
+							<td class="py-3 pr-4 text-[#a0a0a0]">LOW</td>
+							<td class="py-3 pr-4">Accessibility</td>
+							<td class="py-3 pr-4 mono text-xs">global.css .source-actions</td>
+							<td class="py-3">Code actions to 44px min-height touch target</td>
+						</tr>
+						<tr class="border-b border-[#1a1a1e]">
+							<td class="py-3 pr-4 text-[#555]">6</td>
+							<td class="py-3 pr-4 text-[#a0a0a0]">LOW</td>
+							<td class="py-3 pr-4">Accessibility</td>
+							<td class="py-3 pr-4 mono text-xs">[slug].astro copy script</td>
+							<td class="py-3">Announce copy success via aria-live / aria-label toggle</td>
+						</tr>
+						<tr class="border-b border-[#1a1a1e]">
+							<td class="py-3 pr-4 text-[#555]">7</td>
+							<td class="py-3 pr-4 text-[#a0a0a0]">LOW</td>
+							<td class="py-3 pr-4">Writing</td>
+							<td class="py-3 pr-4 mono text-xs">index.astro plugins section</td>
+							<td class="py-3">Add "View all" link to match Topics / Latest sections</td>
+						</tr>
+						<tr>
+							<td class="py-3 pr-4 text-[#555]">8</td>
+							<td class="py-3 pr-4 text-[#a0a0a0]">LOW</td>
+							<td class="py-3 pr-4">Accessibility</td>
+							<td class="py-3 pr-4 mono text-xs">Base.astro mobile nav</td>
+							<td class="py-3">Toggle aria-label between open/close states</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</section>
+
+		<section class="report-section mb-8 p-6 md:p-8">
+			<div class="mono mb-6 text-xs tracking-widest text-[#666]">// PRIORITY ISSUES</div>
+			<div class="space-y-5">
+				<article class="border border-[#2a1d22] bg-[#110b0d] p-5">
+					<div class="mono mb-2 text-xs text-[#f43f5e]">P1 — COLOR</div>
+					<h2 class="mb-2 text-lg font-semibold">Primary CTA deviates from the brand button rules</h2>
+					<p class="mb-4 text-sm leading-6 text-[#a0a0a0]">src/styles/global.css: .btn uses background:var(--teal-text) #2d5867 and a rust hover. The WebberZone brand system reserves teal #4a7c8a for button backgrounds and teal-dark #3d6875 for button hover; rust is for secondary buttons and link hover only. The CTA currently reads navy, not brand teal.</p>
+					<div class="border-l border-[#fbbf24] pl-4 text-sm leading-6 text-[#fbbf24]">FIX: .btn background:var(--teal) (white text passes AA at 4.62:1); hover #3d6875. Keep rust for secondary hover states.</div>
+				</article>
+				<article class="border border-[#2a1d22] bg-[#110b0d] p-5">
+					<div class="mono mb-2 text-xs text-[#f43f5e]">P1 — COLOR</div>
+					<h2 class="mb-2 text-lg font-semibold">Code block is themed GitHub, not WebberZone</h2>
+					<p class="mb-4 text-sm leading-6 text-[#a0a0a0]">The snippet page renders the source in Shiki's github-dark theme (#24292e with GitHub's red/green/blue palette) inside the brand-navy .source-shell. Two different dark surfaces stack, and the site's primary artifact — the code itself — is the only region using an off-brand colour system.</p>
+					<div class="border-l border-[#fbbf24] pl-4 text-sm leading-6 text-[#fbbf24]">FIX: Custom Shiki theme on a navy surface with teal/amber/stone token hues, consistent with the .source-shell chrome.</div>
+				</article>
+				<article class="border border-[#2a1d22] bg-[#110b0d] p-5">
+					<div class="mono mb-2 text-xs text-[#f43f5e]">P1 — LAYOUT</div>
+					<h2 class="mb-2 text-lg font-semibold">"On this page" omits the page's main sections</h2>
+					<p class="mb-4 text-sm leading-6 text-[#a0a0a0]">Toc.astro collects only .markdown-body h2s; Requirements, Source, and Details are rendered outside that wrapper. The TOC lists 2 of 5 sections — Source, the reason the page exists, is unreachable from it. Guide pages include everything, making the omission visibly inconsistent.</p>
+					<div class="border-l border-[#fbbf24] pl-4 text-sm leading-6 text-[#fbbf24]">FIX: Generate the TOC from all article h2s (move sections into the collected scope, or scope the query to the article container).</div>
+				</article>
+				<article class="border border-[#2a1d22] bg-[#110b0d] p-5">
+					<div class="mono mb-2 text-xs text-[#f43f5e]">P1 — INTERACTION</div>
+					<h2 class="mb-2 text-lg font-semibold">Filtering to zero results is a dead end</h2>
+					<p class="mb-4 text-sm leading-6 text-[#a0a0a0]">SnippetBrowser.astro render() replaces the grid with zero cards when nothing matches; the only feedback is "0 of 22 snippets". No message, no reset path. Reproduced live in the browser.</p>
+					<div class="border-l border-[#fbbf24] pl-4 text-sm leading-6 text-[#fbbf24]">FIX: Render a "No snippets match these filters" empty state with a clear-filters action when items.length is 0.</div>
+				</article>
+			</div>
+		</section>
+
+		<section class="report-section mb-8 p-6 md:p-8">
+			<div class="mono mb-6 text-xs tracking-widest text-[#666]">// VERIFICATION</div>
+			<ul class="space-y-2 text-sm text-[#a0a0a0]">
+				<li><span class="mono mr-2 text-[#34d399]">RUN</span>Previewed build in headless Chromium at 1440 / 375 / 320px; screenshots of home, browser, detail (regular + gated), guide, plugins</li>
+				<li><span class="mono mr-2 text-[#34d399]">RUN</span>Programmatic WCAG contrast on 13 token pairs — all pass AA</li>
+				<li><span class="mono mr-2 text-[#34d399]">RUN</span>Keyboard pass: skip link first, combobox arrow/Enter navigation verified</li>
+				<li><span class="mono mr-2 text-[#34d399]">RUN</span>Empty filter state reproduced: "0 of 22 snippets", zero cards, no message</li>
+				<li><span class="mono mr-2 text-[#34d399]">RUN</span>Brand fidelity: mark.svg teal W / navy Z, footer recolor, self-hosted brand fonts</li>
+				<li><span class="mono mr-2 text-[#666]">GAP</span>Screen-reader announcement pass — no SR available; copy-success announcement identified from code only</li>
+			</ul>
+		</section>
+
+		<footer class="mono py-8 text-center text-xs tracking-widest text-[#444]">
+			Generated with CommandCode - 2026-09-12
+		</footer>
+	</main>
+</body>
+</html>

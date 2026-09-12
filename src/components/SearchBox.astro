@@ -14,6 +14,8 @@ const { compact = false } = Astro.props;
   if (input && list) {
     let records: any[] = [];
     let selected = -1;
+    let loadFailed = false;
+    let errorNote: HTMLParagraphElement | null = null;
     const normalize = (value: string) => value.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim();
     const score = (record: any, query: string) => {
       const normalized = normalize(query);
@@ -34,6 +36,18 @@ const { compact = false } = Astro.props;
       if (active) input.setAttribute('aria-activedescendant', active.id); else input.removeAttribute('aria-activedescendant');
     };
     const render = () => {
+      if (loadFailed && input.value.trim()) {
+        if (!errorNote) {
+          errorNote = document.createElement('p');
+          errorNote.className = 'search-error';
+          errorNote.setAttribute('role', 'status');
+          errorNote.textContent = 'Search is unavailable. Use the snippet browser instead.';
+          input.parentElement?.append(errorNote);
+        }
+        list.hidden = true;
+        input.setAttribute('aria-expanded', 'false');
+        return;
+      }
       const results = records.map((record) => ({ record, score: score(record, input.value) })).filter((item) => item.score >= 0 && input.value.trim()).sort((a, b) => b.score - a.score || a.record.title.localeCompare(b.record.title)).slice(0, 8);
       list.replaceChildren(...results.map(({ record }) => {
         const item = document.createElement('li');
@@ -45,7 +59,7 @@ const { compact = false } = Astro.props;
       const open = results.length > 0;
       list.hidden = !open; input.setAttribute('aria-expanded', String(open)); select(open ? 0 : -1);
     };
-    fetch(input.dataset.indexUrl!).then((response) => response.ok ? response.json() : []).then((data) => { records = data; }).catch(() => {});
+    fetch(input.dataset.indexUrl!).then((response) => response.ok ? response.json() : []).then((data) => { records = data; }).catch(() => { loadFailed = true; });
     input.addEventListener('input', render);
     input.addEventListener('keydown', (event) => {
       const options = [...list.querySelectorAll('a')];

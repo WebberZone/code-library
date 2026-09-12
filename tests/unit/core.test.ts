@@ -61,7 +61,7 @@ test('snippet metadata rejects inconsistent plugin and review fields', () => {
 
 test('plugin ZIPs use the snippet slug as the root folder', () => {
   const encoder = new TextEncoder();
-  const files = unzipSync(createPluginZip('example-snippet', 'example.php', encoder.encode('<?php'), encoder.encode('GPL')));
+  const files = unzipSync(createPluginZip('example-snippet', 'example.php', encoder.encode('<?php')));
   assert.ok(files['example-snippet/example.php']);
-  assert.ok(files['example-snippet/LICENSE']);
+  assert.equal(Object.keys(files).length, 1);
 });

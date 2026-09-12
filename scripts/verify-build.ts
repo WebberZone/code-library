@@ -1,5 +1,4 @@
 import { existsSync, readFileSync, readdirSync, statSync } from 'node:fs';
-import { readFile } from 'node:fs/promises';
 import path from 'node:path';
 import { parse } from 'parse5';
 import { unzipSync } from 'fflate';
@@ -45,7 +44,6 @@ const sitemap = readFileSync(path.join(dist, 'sitemap-0.xml'), 'utf8');
 assert(sitemap.includes(`${SITE_URL}${BASE_PATH}/`), 'Sitemap does not use the project URL');
 assert(existsSync(path.join(dist, '404.html')), 'Missing 404 page');
 
-const license = await readFile('LICENSE');
 let sourceDownloads = 0;
 let zipDownloads = 0;
 for (const snippet of snippets) {
@@ -70,10 +68,10 @@ for (const snippet of snippets) {
   if (snippet.kind === 'plugin') {
     const zipPath = path.join(dist, `downloads/plugins/${snippet.plugin}/${snippet.slug}.zip`);
     assert(existsSync(zipPath), `Missing ZIP for ${snippet.slug}`);
-    const expected = createPluginZip(snippet.slug, source.filename, source.bytes, license);
+    const expected = createPluginZip(snippet.slug, source.filename, source.bytes);
     assert(readFileSync(zipPath).equals(Buffer.from(expected)), `ZIP is not deterministic for ${snippet.slug}`);
     const files = unzipSync(expected);
-    assert(files[`${snippet.slug}/${source.filename}`] && files[`${snippet.slug}/LICENSE`], `Invalid ZIP payload for ${snippet.slug}`);
+    assert(files[`${snippet.slug}/${source.filename}`] && Object.keys(files).length === 1, `Invalid ZIP payload for ${snippet.slug}`);
     zipDownloads++;
   }
 }

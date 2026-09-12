@@ -7,7 +7,7 @@ description: Choose the right installation method for a plugin-formatted snippet
 
 Every entry states the plugin it targets, the kind of code it contains and its review status. Snippets are examples, not drop-in guarantees: test them on a staging site and keep a backup before changing a production site.
 
-Each page carries a compatibility note unless a concrete issue is known. A **Needs review** label means copy or download controls are intentionally unavailable while the issue remains unresolved.
+Review each page's requirements before use. A **Needs review** label means copy or download controls are intentionally unavailable while a known issue remains unresolved.
 
 ## Installable mini-plugins
 

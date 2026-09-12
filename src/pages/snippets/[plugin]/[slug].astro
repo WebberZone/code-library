@@ -21,7 +21,7 @@ const gated = snippet.data.review.status === 'needs-review';
     <nav class="breadcrumb" aria-label="Breadcrumb"><a href={withBase('/')}>Home</a><span aria-hidden="true">/</span><a href={withBase(`/plugins/${snippet.data.primaryPlugin}/`)}>{pluginName(snippet.data.primaryPlugin)}</a><span aria-hidden="true">/</span><span>{snippet.data.title}</span></nav>
     <div class="meta"><Badges item={snippet} />{snippet.data.tags.map((tag)=><span class="badge">{tag}</span>)}</div>
     <h1>{snippet.data.title}</h1><p class="lead">{snippet.data.description}</p>
-    {gated ? <div class="notice" role="note"><strong>Needs review before use.</strong><ul>{snippet.data.review.reasons.map((reason)=><li>{reason}</li>)}</ul><p>Copy controls and downloads are disabled for this entry. You can inspect the source below and in GitHub.</p></div> : <div class="notice neutral" role="note"><strong>Compatibility note.</strong> This community example has not been verified against current WordPress, PHP or plugin releases. Test it on a staging site before production use.</div>}
+    {gated && <div class="notice" role="note"><strong>Needs review before use.</strong><ul>{snippet.data.review.reasons.map((reason)=><li>{reason}</li>)}</ul><p>Copy controls and downloads are disabled for this entry. You can inspect the source below and in GitHub.</p></div>}
     <div class="doc">
       <article class="article">
         <section class="markdown-body"><Content /></section>

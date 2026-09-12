@@ -1,0 +1,77 @@
+---
+import SnippetCard from './SnippetCard.astro';
+import Pagination from './Pagination.astro';
+import type { SearchRecord } from '../lib/search.ts';
+import type { Snippet } from '../lib/catalog.ts';
+import { CATEGORIES, KINDS, PLUGINS } from '../lib/site.ts';
+interface Props { records: SearchRecord[]; snippets: Snippet[]; page?: number; pages?: number; path: string; fixedPlugin?: string; fixedCategory?: string; }
+const { records, snippets, page = 1, pages = 1, path, fixedPlugin, fixedCategory } = Astro.props;
+const tags = [...new Set(records.flatMap((record) => record.tags))].sort();
+const serialized = JSON.stringify(records).replace(/</g, '\\u003c');
+---
+<section class="browser" data-browser data-path={path} data-fixed-plugin={fixedPlugin} data-fixed-category={fixedCategory}>
+  <form class="filters" data-filters>
+    <label>Search<input name="query" type="search" placeholder="Name, description, hook or tag" autocomplete="off"></label>
+    {!fixedPlugin && <label>Plugin<select name="plugin"><option value="">All plugins</option>{PLUGINS.map((plugin)=><option value={plugin.slug}>{plugin.name}</option>)}</select></label>}
+    {!fixedCategory && <label>Topic<select name="category"><option value="">All topics</option>{CATEGORIES.map((category)=><option value={category.slug}>{category.name}</option>)}</select></label>}
+    <label>Type<select name="kind"><option value="">All types</option>{Object.entries(KINDS).map(([value,label])=><option value={value}>{label}</option>)}</select></label>
+    <label>Review<select name="status"><option value="">All snippets</option><option value="needs-review">Needs review</option><option value="available">Downloads available</option></select></label>
+    <label>Pro<select name="pro"><option value="">Any</option><option value="yes">Pro only</option><option value="no">Free plugin</option></select></label>
+    <label>Tag<select name="tag"><option value="">All tags</option>{tags.map((tag)=><option value={tag}>{tag}</option>)}</select></label>
+    <label>Sort<select name="sort"><option value="relevance">Relevance/title</option><option value="title">Title</option><option value="updated">Recently updated</option></select></label>
+  </form>
+  <p class="results-count" aria-live="polite" data-count>{snippets.length} of {records.length} snippets</p>
+  <div class="grid" data-results>{snippets.map((snippet)=><SnippetCard snippet={snippet} membership={fixedPlugin ?? snippet.data.primaryPlugin} />)}</div>
+  <div data-pagination><Pagination page={page} pages={pages} path={path} /></div>
+  <script is:inline type="application/json" data-records set:html={serialized}></script>
+</section>
+<script>
+  document.querySelectorAll('[data-browser]').forEach((root) => {
+    const browser = root as HTMLElement;
+    const records = JSON.parse(browser.querySelector('[data-records]')?.textContent ?? '[]');
+    const form = browser.querySelector('[data-filters]') as HTMLFormElement;
+    const results = browser.querySelector('[data-results]') as HTMLElement;
+    const count = browser.querySelector('[data-count]') as HTMLElement;
+    const pagination = browser.querySelector('[data-pagination]') as HTMLElement;
+    const normalize = (value: string) => value.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim();
+    const score = (record: any, query: string) => {
+      const normalized = normalize(query);
+      if (!normalized) return 0;
+      const fields = [normalize(record.title), normalize(record.description), normalize(record.pluginNames.join(' ')), normalize(record.references.join(' ')), normalize(record.tags.join(' '))];
+      if (!normalized.split(' ').every((token) => fields.some((field) => field.includes(token)))) return null;
+      return fields[0] === normalized ? 100 : fields[0].startsWith(normalized) ? 70 : fields[0].includes(normalized) ? 50 : 20;
+    };
+    const state = () => Object.fromEntries(new FormData(form).entries()) as Record<string,string>;
+    const categoryNames: Record<string,string> = { display: 'Display', queries: 'Queries', tracking: 'Tracking', integrations: 'Integrations' };
+    const filtered = () => records.filter((record: any) => {
+      const filters = state();
+      if (filters.plugin && !record.plugins.includes(filters.plugin)) return false;
+      if (filters.category && record.category !== filters.category) return false;
+      if (filters.kind && record.kind !== filters.kind) return false;
+      if (filters.pro === 'yes' && !record.requiresPro) return false;
+      if (filters.pro === 'no' && record.requiresPro) return false;
+      if (filters.status && record.status !== filters.status) return false;
+      if (filters.tag && !record.tags.includes(filters.tag)) return false;
+      return score(record, filters.query) !== null;
+    }).sort((a: any, b: any) => state().sort === 'updated' ? b.updated.localeCompare(a.updated) : state().sort === 'title' ? a.title.localeCompare(b.title) : (score(b,state().query) ?? 0) - (score(a,state().query) ?? 0) || a.title.localeCompare(b.title));
+    const badge = (text: string, className = '') => { const item = document.createElement('span'); item.className = `badge ${className}`; item.textContent = text; return item; };
+    const card = (record: any) => {
+      const article = document.createElement('article'); article.className = 'card snippet-card';
+      const badges = document.createElement('div'); badges.className = 'card-tags';
+      badges.append(badge(record.kind === 'plugin' ? 'Plugin' : record.kind === 'template' ? 'Template example' : 'Function snippet', 'kind'), badge(categoryNames[record.category] ?? record.category));
+      if (record.requiresPro) badges.append(badge('Pro only', 'pro'));
+      if (record.status === 'needs-review') badges.append(badge('Needs review', 'review'));
+      const heading = document.createElement('h3'); const link = document.createElement('a'); link.href = record.url; link.textContent = record.title; heading.append(link);
+      const description = document.createElement('p'); description.textContent = record.description;
+      const meta = document.createElement('p'); meta.className = 'count'; meta.textContent = record.pluginNames.join(', ');
+      article.append(badges, heading, description, meta); return article;
+    };
+    const render = () => {
+      const items = filtered();
+      results.replaceChildren(...items.map(card));
+      count.textContent = `${items.length} of ${records.length} snippets`;
+      pagination.replaceChildren();
+    };
+    form.addEventListener('input', render); form.addEventListener('submit', (event) => event.preventDefault());
+  });
+</script>

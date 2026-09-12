@@ -1,0 +1,59 @@
+---
+import { withBase } from '../lib/urls.ts';
+interface Props { compact?: boolean }
+const { compact = false } = Astro.props;
+---
+<div class:list={['site-search', { compact }]}>
+  <label class="visually-hidden" for="library-search">Search the code library</label>
+  <input id="library-search" type="search" role="combobox" aria-expanded="false" aria-controls="library-search-results" aria-autocomplete="list" autocomplete="off" placeholder="Search snippets, plugins or hooks…" data-index-url={withBase('/search-index.json')}>
+  <ul id="library-search-results" role="listbox" aria-label="Snippet suggestions" hidden></ul>
+</div>
+<script>
+  const input = document.querySelector('#library-search') as HTMLInputElement | null;
+  const list = document.querySelector('#library-search-results') as HTMLUListElement | null;
+  if (input && list) {
+    let records: any[] = [];
+    let selected = -1;
+    const normalize = (value: string) => value.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim();
+    const score = (record: any, query: string) => {
+      const normalized = normalize(query);
+      if (!normalized) return 0;
+      const title = normalize(record.title);
+      const haystack = [title, normalize(record.description), normalize(record.pluginNames.join(' ')), normalize(record.references.join(' '))].join(' ');
+      if (!normalized.split(' ').every((token) => haystack.includes(token))) return -1;
+      return title === normalized ? 100 : title.startsWith(normalized) ? 75 : title.includes(normalized) ? 50 : 20;
+    };
+    const close = () => { list.hidden = true; input.setAttribute('aria-expanded', 'false'); selected = -1; };
+    const select = (index: number) => {
+      selected = index;
+      list.querySelectorAll('a').forEach((option, position) => {
+        option.id = `search-option-${position}`;
+        option.setAttribute('aria-selected', String(position === selected));
+      });
+      const active = list.querySelectorAll('a')[selected];
+      if (active) input.setAttribute('aria-activedescendant', active.id); else input.removeAttribute('aria-activedescendant');
+    };
+    const render = () => {
+      const results = records.map((record) => ({ record, score: score(record, input.value) })).filter((item) => item.score >= 0 && input.value.trim()).sort((a, b) => b.score - a.score || a.record.title.localeCompare(b.record.title)).slice(0, 8);
+      list.replaceChildren(...results.map(({ record }) => {
+        const item = document.createElement('li');
+        const link = document.createElement('a');
+        link.href = record.url; link.setAttribute('role', 'option'); link.textContent = record.title;
+        const meta = document.createElement('span'); meta.textContent = ` ${record.pluginNames.join(', ')}`;
+        link.append(meta); item.append(link); return item;
+      }));
+      const open = results.length > 0;
+      list.hidden = !open; input.setAttribute('aria-expanded', String(open)); select(open ? 0 : -1);
+    };
+    fetch(input.dataset.indexUrl!).then((response) => response.ok ? response.json() : []).then((data) => { records = data; }).catch(() => {});
+    input.addEventListener('input', render);
+    input.addEventListener('keydown', (event) => {
+      const options = [...list.querySelectorAll('a')];
+      if (event.key === 'Escape') { close(); input.blur(); }
+      if (event.key === 'ArrowDown' && options.length) { event.preventDefault(); select((selected + 1) % options.length); }
+      if (event.key === 'ArrowUp' && options.length) { event.preventDefault(); select((selected - 1 + options.length) % options.length); }
+      if (event.key === 'Enter' && selected >= 0 && options[selected]) { event.preventDefault(); location.href = options[selected].getAttribute('href')!; }
+    });
+    input.addEventListener('blur', () => setTimeout(close, 150));
+  }
+</script>

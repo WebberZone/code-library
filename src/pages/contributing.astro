@@ -1,0 +1,9 @@
+---
+import Base from '../layouts/Base.astro';
+import Toc from '../components/Toc.astro';
+import { getEntry, render } from 'astro:content';
+const entry = await getEntry('guides', 'contributing');
+if (!entry) throw new Error('Missing contributing guide');
+const { Content } = await render(entry);
+---
+<Base title={`${entry.data.title} | WebberZone Code Library`} description={entry.data.description}><div class="container section"><nav class="breadcrumb" aria-label="Breadcrumb"><a href="/code-library/">Home</a><span aria-hidden="true">/</span><span>Guides</span></nav><p class="eyebrow">Guide</p><h1>{entry.data.title}</h1><div class="doc"><article class="article markdown-body"><Content /></article><Toc /></div></div></Base>

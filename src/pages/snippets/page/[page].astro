@@ -1,0 +1,14 @@
+---
+import Base from '../../../layouts/Base.astro';
+import SnippetBrowser from '../../../components/SnippetBrowser.astro';
+import { getCatalog, searchRecord } from '../../../lib/catalog.ts';
+import { paginate } from '../../../lib/search.ts';
+export async function getStaticPaths() {
+  const catalog = await getCatalog();
+  const pages = Math.max(1, Math.ceil(catalog.length / 24));
+  return Array.from({ length: pages - 1 }, (_, index) => ({ params: { page: String(index + 2) } }));
+}
+const catalog = await getCatalog();
+const page = paginate(catalog, Number(Astro.params.page));
+---
+<Base title={`Snippets page ${page.page} | WebberZone Code Library`} description="Search and filter every snippet in the WebberZone code library."><div class="container section"><nav class="breadcrumb" aria-label="Breadcrumb"><a href="/code-library/">Home</a><span aria-hidden="true">/</span><a href="/code-library/snippets/">Snippets</a><span aria-hidden="true">/</span><span>Page {page.page}</span></nav><h1>All snippets</h1><SnippetBrowser records={catalog.map(searchRecord)} snippets={page.items} page={page.page} pages={page.pages} path="/snippets" /></div></Base>

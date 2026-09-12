@@ -1,0 +1,15 @@
+---
+import Base from '../../../layouts/Base.astro';
+import SnippetBrowser from '../../../components/SnippetBrowser.astro';
+import { getCatalog, searchRecord } from '../../../lib/catalog.ts';
+import { paginate } from '../../../lib/search.ts';
+import { CATEGORIES, categoryName } from '../../../lib/site.ts';
+export async function getStaticPaths() {
+  const catalog = await getCatalog();
+  return CATEGORIES.map((category) => ({ params: { category: category.slug }, props: { snippets: catalog.filter((snippet) => snippet.data.category === category.slug) } }));
+}
+const snippets = Astro.props.snippets;
+const category = Astro.params.category!;
+const page = paginate(snippets, 1);
+---
+<Base title={`${categoryName(category)} snippets | WebberZone Code Library`} description={`Search ${snippets.length} ${categoryName(category).toLowerCase()} snippets for WebberZone plugins.`}><div class="container section"><nav class="breadcrumb" aria-label="Breadcrumb"><a href="/code-library/">Home</a><span aria-hidden="true">/</span><a href="/code-library/topics/">Topics</a><span aria-hidden="true">/</span><span>{categoryName(category)}</span></nav><p class="eyebrow">Topic</p><h1>{categoryName(category)} snippets</h1><p class="lead">{snippets.length} snippets in this curated topic.</p><SnippetBrowser records={snippets.map(searchRecord)} snippets={page.items} page={page.page} pages={page.pages} path={`/topics/${category}`} fixedCategory={category} /></div></Base>

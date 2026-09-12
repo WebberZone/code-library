@@ -1,0 +1,28 @@
+---
+import '../styles/global.css';
+import '@fontsource/league-spartan/latin-700.css';
+import '@fontsource/league-spartan/latin-800.css';
+import '@fontsource/plus-jakarta-sans/latin-400.css';
+import '@fontsource/plus-jakarta-sans/latin-700.css';
+import '@fontsource/fira-code/latin-400.css';
+import { REPOSITORY, PLUGINS } from '../lib/site.ts';
+import { canonicalUrl, withBase } from '../lib/urls.ts';
+interface Props { title: string; description: string; }
+const { title, description } = Astro.props;
+---
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content={description}>
+  <title>{title}</title><link rel="canonical" href={canonicalUrl(Astro.url.pathname)}><link rel="icon" type="image/svg+xml" href={withBase('/mark.svg')}><meta name="theme-color" content="#1a2e3a">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-nav">
+  <a class="brand" href={withBase('/')} aria-label="WebberZone Code Library home"><img src={withBase('/mark.svg')} alt="" width="31" height="30"><strong>Code Library</strong></a>
+  <ul class="nav-links"><li><a href={withBase('/snippets/')}>Browse snippets</a></li><li><a href={withBase('/using-snippets/')}>Install</a></li><li><a href={withBase('/contributing/')}>Contribute</a></li><li><a class="nav-gh" href={REPOSITORY}>GitHub</a></li></ul>
+  <details class="mobile-nav"><summary aria-label="Open navigation"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h16M4 12h16M4 17h16"/></svg></summary><ul><li><a href={withBase('/snippets/')}>Browse snippets</a></li><li><a href={withBase('/using-snippets/')}>Install snippets</a></li><li><a href={withBase('/contributing/')}>Contribute</a></li><li><a href={REPOSITORY}>GitHub</a></li></ul></details>
+</header>
+<main id="main"><slot /></main>
+<footer class="site-footer"><div class="footer-inner"><div class="footer-top"><div><img class="logo-light" src={withBase('/mark.svg')} width="72" height="70" alt="WebberZone"><p>A community-maintained library of customization examples for WebberZone plugins.</p></div><div class="footer-links"><div><strong>Plugins</strong><ul>{PLUGINS.map((p)=><li><a href={withBase(`/plugins/${p.slug}/`)}>{p.name}</a></li>)}</ul></div><div><strong>Resources</strong><ul><li><a href={withBase('/snippets/')}>All snippets</a></li><li><a href={withBase('/contributing/')}>Contributing</a></li><li><a href="https://webberzone.dev/">Developer reference</a></li><li><a href="https://webberzone.com/support/">Support</a></li></ul></div></div></div><div class="footer-bottom"><p>Copyright © {new Date().getFullYear()} <a href="https://webberzone.com/">WebberZone</a>. Snippets are GPL-licensed examples and are not automatic recommendations.</p></div></div></footer>
+</body></html>

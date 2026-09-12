@@ -1,0 +1,19 @@
+---
+import Base from '../layouts/Base.astro';
+import SearchBox from '../components/SearchBox.astro';
+import SnippetCard from '../components/SnippetCard.astro';
+import { getCatalog } from '../lib/catalog.ts';
+import { CATEGORIES, PLUGINS } from '../lib/site.ts';
+import type { PluginSlug } from '../lib/site.ts';
+import { withBase } from '../lib/urls.ts';
+const catalog = await getCatalog();
+const recent = [...catalog].sort((a,b)=>(b.updated ?? '').localeCompare(a.updated ?? '')).slice(0,6);
+const countForPlugin = (slug: PluginSlug) => catalog.filter((snippet)=>snippet.data.plugins.includes(slug)).length;
+const countForCategory = (slug: string) => catalog.filter((snippet)=>snippet.data.category === slug).length;
+---
+<Base title="WebberZone Code Library" description="A searchable library of practical customization snippets for WebberZone WordPress plugins.">
+  <section class="hero"><div class="container"><p class="eyebrow">WebberZone Code Library</p><h1>Practical plugin customizations, ready to inspect.</h1><p class="lead">Browse {catalog.length} PHP examples for Better Search, Contextual Related Posts and Top 10. Each page explains where the code belongs, what it requires and whether it has been reviewed.</p><SearchBox /><div class="actions"><a class="btn" href={withBase('/snippets/')}>Browse all snippets</a><a class="btn secondary" href={withBase('/using-snippets/')}>How to install snippets</a></div></div></section>
+  <section class="section"><div class="container"><div class="list-head"><div><p class="eyebrow">Plugins</p><h2>Browse by plugin</h2></div></div><div class="grid">{PLUGINS.map((plugin)=><article class="card"><h3><a href={withBase(`/plugins/${plugin.slug}/`)}>{plugin.name}</a></h3><p>{plugin.description}</p><p class="count">{countForPlugin(plugin.slug)} snippets</p></article>)}</div></div></section>
+  <section class="section"><div class="container"><div class="list-head"><div><p class="eyebrow">Topics</p><h2>Browse by task</h2></div><a href={withBase('/topics/')}>All topics</a></div><div class="grid">{CATEGORIES.map((category)=><article class="card"><h3><a href={withBase(`/topics/${category.slug}/`)}>{category.name}</a></h3><p>{category.description}</p><p class="count">{countForCategory(category.slug)} snippets</p></article>)}</div></div></section>
+  <section class="section"><div class="container"><div class="list-head"><div><p class="eyebrow">Recently updated</p><h2>Latest changes</h2></div><a href={withBase('/snippets/')}>View all</a></div><div class="grid">{recent.map((snippet)=><SnippetCard snippet={snippet} />)}</div></div></section>
+</Base>

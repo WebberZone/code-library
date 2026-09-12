@@ -1,0 +1,14 @@
+---
+import Badges from './Badges.astro';
+import type { Snippet } from '../lib/catalog.ts';
+import { displayDate } from '../lib/dates.ts';
+import { pluginName } from '../lib/site.ts';
+interface Props { snippet: Snippet; membership?: string; }
+const { snippet, membership = snippet.data.primaryPlugin } = Astro.props;
+---
+<article class="card snippet-card" data-tags={snippet.data.tags.join(' ')}>
+  <div class="card-tags"><Badges item={snippet} /></div>
+  <h3><a href={snippet.url}>{snippet.data.title}</a></h3>
+  <p>{snippet.data.description}</p>
+  <p class="count">{pluginName(membership)}{snippet.updated && <> · Updated <time datetime={snippet.updated}>{displayDate(snippet.updated)}</time></>}</p>
+</article>

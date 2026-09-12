@@ -18,6 +18,21 @@ Snippets have been either designed as WordPress plugins or as standalone functio
 
 For files that aren't set up as plugins (i.e. standalone functions), follow steps 1, 2  and 3 above and then copy and paste the code into your theme or child theme's *functions.php* or inside a custom functionality or Must Use plugin (`wp-content/mu-plugins` folder).
 
+## Website
+
+The static website is built with Astro. PHP files remain the source of truth; each file has a companion Markdown page in `src/content/snippets/` for its description, metadata and installation notes.
+
+```bash
+pnpm install
+pnpm run dev
+pnpm test
+pnpm exec astro check
+pnpm run build
+pnpm run verify:build
+```
+
+The production build validates that every PHP source has exactly one companion entry, generates the search index and writes eligible PHP and plugin ZIP downloads to `dist/`.
+
 ## Submitting Your Snippet
 
 We welcome and encourage everyone to submit their code snippets. If you would like to submit your snippet, please [fork](https://github.com/WebberZone/code-library/fork) the repository and then create a [pull request](https://github.com/WebberZone/code-library/compare/).

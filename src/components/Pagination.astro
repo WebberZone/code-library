@@ -1,0 +1,7 @@
+---
+import { withBase } from '../lib/urls.ts';
+interface Props { page: number; pages: number; path: string; }
+const { page, pages, path } = Astro.props;
+const pagePath = (n: number) => `${path.replace(/\/$/, '')}${n === 1 ? '/' : `/page/${n}/`}`;
+---
+{pages > 1 && <nav class="pagination" aria-label="Snippet pages">{Array.from({length:pages},(_,i)=>i+1).map((n)=>n===page?<span class="current" aria-current="page">{n}</span>:<a href={withBase(pagePath(n))}>{n}</a>)}</nav>}

@@ -1,0 +1,5 @@
+---
+import Base from '../layouts/Base.astro';
+import { withBase } from '../lib/urls.ts';
+---
+<Base title="Page not found | WebberZone Code Library" description="The requested snippet or page could not be found."><div class="container not-found"><p class="eyebrow">404</p><h1>Page not found</h1><p class="lead">The snippet may have moved or the address may be incorrect.</p><a class="btn" href={withBase('/snippets/')}>Browse all snippets</a></div></Base>

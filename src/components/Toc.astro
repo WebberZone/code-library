@@ -1,0 +1,8 @@
+<nav class="toc" aria-label="On this page"><strong>On this page</strong><ul data-toc></ul></nav>
+<script>
+  document.querySelectorAll('[data-toc]').forEach((toc) => {
+    const headings = [...document.querySelectorAll('.markdown-body h2')].filter((heading) => heading.id);
+    if (headings.length < 2) { toc.closest('.toc')?.remove(); return; }
+    toc.replaceChildren(...headings.map((heading) => { const item = document.createElement('li'); const link = document.createElement('a'); link.href = `#${heading.id}`; link.textContent = heading.textContent; item.append(link); return item; }));
+  });
+</script>

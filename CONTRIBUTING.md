@@ -13,3 +13,5 @@ Guidelines for submission:
 - Files should be placed in the appropriate category (folder). If no category exists, you may create one with your pull request.
 - All functions and classes should be prefixed with your own unique prefix and the prefix of the corresponding plugin. For example: `ad_crp_{function name here}` for a plugin written by me for [Contextual Related Posts](https://github.com/WebberZone/contextual-related-posts).
 - Although not mandatory, it is recommended to set up each snippet as it's own plugin that a user can upload and activate
+- Add a matching Markdown companion in `src/content/snippets/<plugin>/<slug>.md` with accurate metadata, requirements and installation notes
+- Run `pnpm test`, `pnpm exec astro check`, `pnpm run build` and `pnpm run verify:build` before opening a pull request

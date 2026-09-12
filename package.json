@@ -1,0 +1,35 @@
+{
+  "name": "webberzone-code-library",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@11.22.0",
+  "engines": {
+    "node": ">=24 <25"
+  },
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "check": "astro check",
+    "test": "node --test tests/unit/*.test.ts",
+    "verify:build": "node scripts/verify-build.ts",
+    "test:e2e": "playwright test"
+  },
+  "dependencies": {
+    "@astrojs/markdown-remark": "7.2.4",
+    "@astrojs/sitemap": "3.7.3",
+    "@fontsource/fira-code": "5.3.0",
+    "@fontsource/league-spartan": "5.3.0",
+    "@fontsource/plus-jakarta-sans": "5.3.0",
+    "astro": "7.2.4",
+    "fflate": "0.8.2"
+  },
+  "devDependencies": {
+    "@astrojs/check": "0.9.10",
+    "@playwright/test": "1.58.2",
+    "@types/node": "24.10.1",
+    "parse5": "7.3.0",
+    "typescript": "5.9.3"
+  }
+}

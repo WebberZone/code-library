@@ -1,0 +1,19 @@
+---
+import Base from '../../../../layouts/Base.astro';
+import SnippetBrowser from '../../../../components/SnippetBrowser.astro';
+import { getCatalog, searchRecord } from '../../../../lib/catalog.ts';
+import { paginate } from '../../../../lib/search.ts';
+import { PLUGINS, pluginName } from '../../../../lib/site.ts';
+export async function getStaticPaths() {
+  const catalog = await getCatalog();
+  return PLUGINS.flatMap((plugin) => {
+    const snippets = catalog.filter((snippet) => snippet.data.plugins.includes(plugin.slug));
+    const pages = Math.ceil(snippets.length / 24);
+    return Array.from({ length: Math.max(0, pages - 1) }, (_, index) => ({ params: { plugin: plugin.slug, page: String(index + 2) }, props: { snippets } }));
+  });
+}
+const snippets = Astro.props.snippets;
+const plugin = Astro.params.plugin!;
+const page = paginate(snippets, Number(Astro.params.page));
+---
+<Base title={`${pluginName(plugin)} snippets page ${page.page} | WebberZone Code Library`} description={`Search customization snippets for ${pluginName(plugin)}.`}><div class="container section"><h1>{pluginName(plugin)} snippets</h1><SnippetBrowser records={snippets.map(searchRecord)} snippets={page.items} page={page.page} pages={page.pages} path={`/plugins/${plugin}`} fixedPlugin={plugin} /></div></Base>

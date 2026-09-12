@@ -1,0 +1,9 @@
+---
+import Base from '../../layouts/Base.astro';
+import SnippetBrowser from '../../components/SnippetBrowser.astro';
+import { getCatalog, searchRecord } from '../../lib/catalog.ts';
+import { paginate } from '../../lib/search.ts';
+const catalog = await getCatalog();
+const page = paginate(catalog, 1);
+---
+<Base title="All snippets | WebberZone Code Library" description="Search and filter every snippet in the WebberZone code library."><div class="container section"><nav class="breadcrumb" aria-label="Breadcrumb"><a href="/code-library/">Home</a><span aria-hidden="true">/</span><span>Snippets</span></nav><p class="eyebrow">Snippet browser</p><h1>All snippets</h1><p class="lead">Search by title, plugin, description, hook reference or tag. Filters work in your browser; no snippet code is sent anywhere.</p><SnippetBrowser records={catalog.map(searchRecord)} snippets={page.items} page={page.page} pages={page.pages} path="/snippets" /></div></Base>

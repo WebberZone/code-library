@@ -1,0 +1,8 @@
+---
+import Base from '../../layouts/Base.astro';
+import { getCatalog } from '../../lib/catalog.ts';
+import { CATEGORIES } from '../../lib/site.ts';
+import { withBase } from '../../lib/urls.ts';
+const catalog = await getCatalog();
+---
+<Base title="Topics | WebberZone Code Library" description="Browse WebberZone code snippets by curated customization topic."><div class="container section"><nav class="breadcrumb" aria-label="Breadcrumb"><a href="/code-library/">Home</a><span aria-hidden="true">/</span><span>Topics</span></nav><p class="eyebrow">Topics</p><h1>Browse by topic</h1><div class="grid">{CATEGORIES.map((category)=>{const count=catalog.filter((snippet)=>snippet.data.category===category.slug).length;return <article class="card"><h2><a href={withBase(`/topics/${category.slug}/`)}>{category.name}</a></h2><p>{category.description}</p><p class="count">{count} snippets</p></article>})}</div></div></Base>

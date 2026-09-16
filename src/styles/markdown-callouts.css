@@ -1,0 +1,23 @@
+.markdown-body blockquote {
+	margin: 1.25rem 0;
+	padding: 1rem 1.25rem;
+	border: 1px solid var(--border);
+	border-left: 4px solid var(--teal);
+	border-radius: var(--radius);
+	background: #f0f6f7;
+	color: var(--navy);
+	box-shadow: 0 2px 12px rgba(26, 46, 58, 0.06);
+}
+
+.markdown-body blockquote > :first-child {
+	margin-top: 0;
+}
+
+.markdown-body blockquote > :last-child {
+	margin-bottom: 0;
+}
+
+.markdown-body blockquote a {
+	font-weight: 800;
+	text-decoration: none;
+}

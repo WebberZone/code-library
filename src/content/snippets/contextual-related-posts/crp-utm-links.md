@@ -20,6 +20,8 @@ references:
 
 This filter appends `utm_source`, `utm_medium` and `utm_campaign` to links produced by [Contextual Related Posts](https://webberzone.com/plugins/contextual-related-posts/). The sample values are `related-posts`, `internal` and `crp`.
 
+**Prefer the built-in feature?** Contextual Related Posts Pro includes UTM tracking parameters. [View plans and buy CRP Pro](https://webberzone.com/plugins/contextual-related-posts/pro/).
+
 ## What to change
 
 Edit `$utm_params` to match your campaign naming convention. `add_query_arg()` replaces existing values for matching parameter names.

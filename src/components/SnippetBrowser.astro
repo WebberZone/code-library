@@ -86,5 +86,11 @@ const serialized = JSON.stringify(records).replace(/</g, '\\u003c');
       pagination.replaceChildren();
     };
     form.addEventListener('input', render); form.addEventListener('submit', (event) => event.preventDefault());
+    const tagFilter = form.querySelector<HTMLSelectElement>('select[name="tag"]');
+    const selectedTag = new URLSearchParams(window.location.search).get('tag');
+    if (tagFilter && selectedTag && Array.from(tagFilter.options).some((option) => option.value === selectedTag)) {
+      tagFilter.value = selectedTag;
+      render();
+    }
   });
 </script>

@@ -34,7 +34,7 @@ const snippets = markdown.map((file) => {
   const slug = path.basename(file, '.md');
   return { file, source, kind, gated, plugin, slug };
 });
-assert(snippets.length === 22, `Expected 22 snippets, found ${snippets.length}`);
+assert(snippets.length === 25, `Expected 25 snippets, found ${snippets.length}`);
 
 const index = JSON.parse(readFileSync(path.join(dist, 'search-index.json'), 'utf8'));
 assert(index.length === snippets.length, `Search index has ${index.length} records`);
@@ -75,8 +75,8 @@ for (const snippet of snippets) {
     zipDownloads++;
   }
 }
-assert(sourceDownloads === 18, `Expected 18 source downloads, found ${sourceDownloads}`);
-assert(zipDownloads === 12, `Expected 12 ZIP downloads, found ${zipDownloads}`);
+assert(sourceDownloads === 21, `Expected 21 source downloads, found ${sourceDownloads}`);
+assert(zipDownloads === 15, `Expected 15 ZIP downloads, found ${zipDownloads}`);
 
 for (const file of walkFiles(dist).filter((name) => name.endsWith('.html'))) {
   const html = readFileSync(file, 'utf8');

@@ -17,6 +17,13 @@ export const snippetSchema = z.object({
   tags: z.array(slug).min(1),
   requiresPro: z.boolean(),
   requirements: z.array(z.string().min(1)).min(1),
+  preview: z.object({
+    image: z.string().regex(/^\/images\/(?:[a-z0-9-]+\/)*[a-z0-9-]+\.(?:png|jpe?g|webp)$/),
+    alt: z.string().min(10).max(240),
+    caption: z.string().min(1).max(240),
+    width: z.number().int().positive(),
+    height: z.number().int().positive(),
+  }).strict().optional(),
   review: z.object({ status: z.enum(['available', 'needs-review']), reasons: z.array(z.string().min(10)).default([]) }).strict(),
   references: z.array(z.object({ label: z.string().min(1), url: httpsUrl }).strict()).default([]),
 }).strict().superRefine((data, context) => {

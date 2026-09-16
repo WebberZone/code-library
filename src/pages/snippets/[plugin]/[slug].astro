@@ -23,6 +23,7 @@ const gated = snippet.data.review.status === 'needs-review';
     <div class="meta"><Badges item={snippet} />{snippet.data.tags.map((tag)=><a class="badge" href={withBase(`/snippets/?tag=${encodeURIComponent(tag)}`)}>{tag}</a>)}</div>
     <h1>{snippet.data.title}</h1><p class="lead">{snippet.data.description}</p>
     {gated && <div class="notice" role="note"><strong>Needs review before use.</strong><ul>{snippet.data.review.reasons.map((reason)=><li>{reason}</li>)}</ul><p>Copy controls and downloads are disabled for this entry. You can inspect the source below and in GitHub.</p></div>}
+    {snippet.data.preview && <figure class="snippet-preview"><img src={withBase(snippet.data.preview.image)} alt={snippet.data.preview.alt} width={snippet.data.preview.width} height={snippet.data.preview.height} loading="lazy"><figcaption>{snippet.data.preview.caption}</figcaption></figure>}
     <div class="doc">
       <article class="article">
         <section class="markdown-body"><Content /></section>

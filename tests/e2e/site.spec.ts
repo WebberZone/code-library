@@ -15,8 +15,16 @@ test('home page lists plugins and navigates from search', async ({ page }) => {
 test('snippet browser filters client-side', async ({ page }) => {
   await page.goto('/code-library/snippets/');
   await page.getByRole('searchbox', { name: 'Search' }).fill('footnotes');
-  await expect(page.getByText('1 of 22 snippets')).toBeVisible();
+  await expect(page.getByText('1 of 25 snippets')).toBeVisible();
   await expect(page.getByRole('link', { name: 'Index Easy Footnotes content' })).toBeVisible();
+});
+
+test('editorial card-grid snippet displays its screenshot preview', async ({ page }) => {
+  await page.goto('/code-library/snippets/contextual-related-posts/crp-custom-template-card-grid/');
+  const preview = page.locator('.snippet-preview img');
+  await expect(preview).toHaveAttribute('alt', /two-column related-post card grid/i);
+  await expect(preview).toHaveJSProperty('naturalWidth', 645);
+  await expect(page.getByText('Example output captured on a local multisite test site.')).toBeVisible();
 });
 
 test('gated snippets stay visible without download controls', async ({ page }) => {

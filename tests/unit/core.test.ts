@@ -57,6 +57,8 @@ test('snippet metadata rejects inconsistent plugin and review fields', () => {
   assert.equal(snippetSchema.safeParse({ ...valid, review: { status: 'needs-review' } }).success, false);
   assert.equal(snippetSchema.safeParse({ ...valid, review: { status: 'available', reasons: ['Unsafe output needs escaping.'] } }).success, false);
   assert.equal(snippetSchema.safeParse({ ...valid, source: 'better-search/example.php' }).success, false);
+  assert.equal(snippetSchema.safeParse({ ...valid, preview: { image: '/images/snippets/example.png', alt: 'Example card grid screenshot', caption: 'Example output.', width: 645, height: 1679 } }).success, true);
+  assert.equal(snippetSchema.safeParse({ ...valid, preview: { image: '../example.png', alt: 'Example card grid screenshot', caption: 'Example output.', width: 645, height: 1679 } }).success, false);
 });
 
 test('plugin ZIPs use the snippet slug as the root folder', () => {

@@ -6,4 +6,3 @@ const { item } = Astro.props;
 <span class="badge kind">{KINDS[item.data.kind]}</span>
 <span class="badge">{categoryName(item.data.category)}</span>
 {item.data.requiresPro && <span class="badge pro">Pro only</span>}
-{item.data.review.status === 'needs-review' && <span class="badge review">Needs review</span>}

@@ -60,7 +60,6 @@ const serialized = JSON.stringify(records).replace(/</g, '\\u003c');
       const badges = document.createElement('div'); badges.className = 'card-tags';
       badges.append(badge(record.kind === 'plugin' ? 'Plugin' : record.kind === 'template' ? 'Template example' : 'Function snippet', 'kind'), badge(categoryNames[record.category] ?? record.category));
       if (record.requiresPro) badges.append(badge('Pro only', 'pro'));
-      if (record.status === 'needs-review') badges.append(badge('Needs review', 'review'));
       const heading = document.createElement('h3'); const link = document.createElement('a'); link.href = record.url; link.textContent = record.title; heading.append(link);
       const description = document.createElement('p'); description.textContent = record.description;
       const meta = document.createElement('p'); meta.className = 'count'; meta.textContent = record.pluginNames.join(', ');

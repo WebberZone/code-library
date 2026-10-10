@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Better Search - Easy Footnotes Integration
  * Plugin URI:  https://webberzone.com/plugins/better-search/
- * Description: Makes footnote text added via the Easy Footnotes plugin searchable by Better Search Pro's Custom Tables (Enhanced Content Search Index).
+ * Description: Makes footnote text added via the Easy Footnotes plugin searchable by Better Search Pro's Custom Tables (Efficient Content Storage and Indexing).
  * Author: Ajay D'Souza
  * Author URI: https://webberzone.com
  * Version: 1.0

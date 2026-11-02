@@ -40,19 +40,23 @@ function bsearch_tag_search_where( $where, $search_query ) {
 	$sql = $where;
 
 	foreach ( $exploded as $tag ) {
-		$sql .= "
-			OR EXISTS
-			(
-				SELECT * FROM {$wpdb->terms}
-				INNER JOIN {$wpdb->term_taxonomy}
-					ON {$wpdb->term_taxonomy}.term_id = {$wpdb->terms}.term_id
-				INNER JOIN {$wpdb->term_relationships}
-					ON {$wpdb->term_relationships}.term_taxonomy_id = {$wpdb->term_taxonomy}.term_taxonomy_id
-				WHERE taxonomy = 'post_tag'
-					AND object_id = {$wpdb->posts}.ID
-					AND {$wpdb->terms}.name LIKE '%$tag%'
-
-		)";
+		// The tag is user input: escape it. The OR branch keeps to published posts so it cannot bypass status filters.
+		$sql .= $wpdb->prepare(
+			" OR (
+				{$wpdb->posts}.post_status = 'publish'
+				AND EXISTS (
+					SELECT 1 FROM {$wpdb->terms}
+					INNER JOIN {$wpdb->term_taxonomy}
+						ON {$wpdb->term_taxonomy}.term_id = {$wpdb->terms}.term_id
+					INNER JOIN {$wpdb->term_relationships}
+						ON {$wpdb->term_relationships}.term_taxonomy_id = {$wpdb->term_taxonomy}.term_taxonomy_id
+					WHERE taxonomy = 'post_tag'
+						AND object_id = {$wpdb->posts}.ID
+						AND {$wpdb->terms}.name LIKE %s
+				)
+			)",
+			'%' . $wpdb->esc_like( $tag ) . '%'
+		);
 	}
 
 	return $sql;

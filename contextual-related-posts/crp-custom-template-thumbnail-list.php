@@ -54,7 +54,7 @@ function ad_crp_custom_template_thumbnail_list( $template, $results, $args ) {
 		}
 
 		$excerpt_source = $related_post->post_excerpt ? $related_post->post_excerpt : $related_post->post_content;
-		$excerpt        = wp_trim_words( wp_strip_all_tags( strip_shortcodes( $excerpt_source ) ), 22, '…' );
+		$excerpt        = post_password_required( $related_post ) ? '' : wp_trim_words( wp_strip_all_tags( strip_shortcodes( $excerpt_source ) ), 22, '…' );
 		$excerpt_markup = '';
 		if ( '' !== $excerpt ) {
 			$excerpt_markup = '<p class="ad-crp-template-list__excerpt">' . esc_html( $excerpt ) . '</p>';

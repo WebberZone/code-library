@@ -185,7 +185,8 @@ function ad_crp_custom_template_card_grid( $template, $results, $args ) {
 
 	foreach ( $results as $result ) {
 		$related_post = get_post( $result );
-		if ( ! $related_post instanceof \WP_Post ) {
+		// Older CRP versions can return revisions, which carry no password of their own.
+		if ( ! $related_post instanceof \WP_Post || wp_is_post_revision( $related_post ) ) {
 			continue;
 		}
 
